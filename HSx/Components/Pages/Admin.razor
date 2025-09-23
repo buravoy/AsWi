@@ -1,0 +1,15 @@
+@page "/admin"
+@using HSx.Components.Layout
+@using HSx.Components.Pages.AdminShared
+@layout AdminLayout
+@rendermode InteractiveServer
+
+@if (_isLoggedIn)
+{
+    <h1>Admin</h1>
+}
+else
+{
+    <LoginForm OnLogin="HandleLogin"/>
+}
+
