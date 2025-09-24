@@ -1,5 +1,5 @@
 <div class="auth">
-    <input type="text" id="login" name="login" @bind="_login">
-    <input type="password" id="password" name="password" @bind="_password">
+    <input type="text" id="login" name="login" @bind="_login" autocomplete="username">
+    <input type="password" id="password" name="password" @bind="_password"  autocomplete="current-password">
     <button type="button" @onclick="Login"></button>
 </div>

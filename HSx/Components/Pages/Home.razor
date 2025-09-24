@@ -1,7 +1,71 @@
 ﻿@page "/"
+@using HSx.Models
+@using HSx.Services
+@inject MongoDbService MongoDbService
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="AddArticle">
+        Добавить статью
+    </button>
 
-Welcome to your new app.
+    <span class="ms-3">Всего статей: @articlesCount</span>
+</div>
+
+@if (articles.Any())
+{
+    <div class="articles-list">
+        @foreach (var article in articles)
+        {
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">@article.Title</h5>
+                    <p class="card-text">@article.Content</p>
+                    <small class="text-muted">Создано: @article.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>Статьи не найдены. Нажмите кнопку чтобы добавить первую статью.</p>
+}
+
+
+@code {
+    private List<Article> articles = new();
+    private long articlesCount = 0;
+    private int counter = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadArticles();
+    }
+
+    private async Task AddArticle()
+    {
+        var newArticle = new Article
+        {
+            Title = $"Статья #{counter}",
+            Content = $"Это содержимое статьи номер {counter}",
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await MongoDbService.AddArticleAsync(newArticle);
+        counter++;
+
+        await LoadArticles();
+
+        // Принудительное обновление UI
+        StateHasChanged();
+    }
+
+    private async Task LoadArticles()
+    {
+        articles = await MongoDbService.GetArticlesAsync();
+        articlesCount = await MongoDbService.GetArticlesCountAsync();
+    }
+}

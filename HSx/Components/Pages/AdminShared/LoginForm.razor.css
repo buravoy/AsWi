@@ -1,1 +1,1 @@
-.auth{padding:20px;display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:100vh}.auth input,.auth button{width:200px;margin:10px 0;padding:5px;border:none;outline:none;min-height:34px}
+.auth{padding:20px;display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:100vh}.auth input,.auth button{margin:10px 0;padding:5px;border:none;outline:none;min-height:34px}.auth button{width:36px;height:36px;border-radius:28px;background-color:#ddd}.auth input{width:200px;border-bottom:1px dashed #ddd}

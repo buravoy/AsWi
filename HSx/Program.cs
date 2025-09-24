@@ -1,10 +1,19 @@
 using HSx.Components;
+using HSx.Services;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+
+builder.Services.AddSingleton<IMongoClient>(_ => new MongoClient(connectionString));
+
+builder.Services.AddSingleton<MongoDbService>();
 
 var app = builder.Build();
 
